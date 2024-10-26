@@ -142,38 +142,58 @@ export default function LandingPage() {
   )
 }
 
-function WorkoutForm({ setWorkouts }) {
-  const [exercise, setExercise] = useState('')
-  const [sets, setSets] = useState('')
-  const [reps, setReps] = useState('')
-  const [weight, setWeight] = useState('')
-  // const router = useRouter()
+// Define the Workout interface
+interface Workout {
+  exercise: string;
+  sets: number;
+  reps: number;
+  weight: number;
+  date: string;
+}
+
+// Define the props type for WorkoutForm
+interface WorkoutFormProps {
+  setWorkouts: React.Dispatch<React.SetStateAction<Workout[]>>; // Explicitly typing setWorkouts
+}
+
+// WorkoutForm component with typed props
+function WorkoutForm({ setWorkouts }: WorkoutFormProps) {
+  const [exercise, setExercise] = useState<string>('');
+  const [sets, setSets] = useState<string>('');
+  const [reps, setReps] = useState<string>('');
+  const [weight, setWeight] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     // Prepare workout data
-    const workoutData = { exercise, sets, reps, weight, date: new Date().toLocaleDateString() }
+    const workoutData: Workout = {
+      exercise,
+      sets: Number(sets),
+      reps: Number(reps),
+      weight: Number(weight),
+      date: new Date().toLocaleDateString(),
+    };
 
     // Get existing workouts from localStorage or initialize an empty array
     const storedWorkouts = localStorage.getItem('workouts');
-    const workouts = JSON.parse(storedWorkouts || '[]');
+    const workouts: Workout[] = JSON.parse(storedWorkouts || '[]');
 
     // Add new workout to the list
-    workouts.push(workoutData)
+    workouts.push(workoutData);
 
     // Save updated workout list to localStorage
-    localStorage.setItem('workouts', JSON.stringify(workouts))
+    localStorage.setItem('workouts', JSON.stringify(workouts));
 
-    // Update the state
-    setWorkouts(workouts)
+    // Update the state with the new workouts
+    setWorkouts(workouts);
 
     // Reset form fields
-    setExercise('')
-    setSets('')
-    setReps('')
-    setWeight('')
-  }
+    setExercise('');
+    setSets('');
+    setReps('');
+    setWeight('');
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
@@ -225,5 +245,5 @@ function WorkoutForm({ setWorkouts }) {
       </div>
       <Button type="submit" className="w-full">Log Workout</Button>
     </form>
-  )
+  );
 }
