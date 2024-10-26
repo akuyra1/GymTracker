@@ -202,7 +202,7 @@ function WorkoutForm({ setWorkouts }) {
         />
       </div>
       <div>
-        <Label htmlFor="weight">Weight (lbs)</Label>
+        <Label htmlFor="weight">Weight (kg)</Label>
         <Input
           id="weight"
           type="number"
