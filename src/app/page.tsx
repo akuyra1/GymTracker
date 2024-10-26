@@ -8,16 +8,26 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dumbbell, LineChart, Calendar, Clock } from "lucide-react"
 import styles from '@/app/styles/progressPage.module.css'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
+
+// Define the Workout interface
+interface Workout {
+  exercise: string;
+  sets: number;
+  reps: number;
+  weight: number;
+  date: string;
+}
 
 export default function LandingPage() {
-  const [workouts, setWorkouts] = useState([])
+  const [workouts, setWorkouts] = useState<Workout[]>([]); // Explicitly typing the workouts state
 
   useEffect(() => {
-    // Fetch workouts from localStorage
-    const storedWorkouts = JSON.parse(localStorage.getItem('workouts')) || []
-    setWorkouts(storedWorkouts)
-  }, [])
+    // Fetch workouts from localStorage and provide a default empty array if null
+    const storedWorkouts = localStorage.getItem('workouts');
+    const parsedWorkouts: Workout[] = JSON.parse(storedWorkouts || '[]'); // Use '[]' if null
+    setWorkouts(parsedWorkouts);
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -146,7 +156,8 @@ function WorkoutForm({ setWorkouts }) {
     const workoutData = { exercise, sets, reps, weight, date: new Date().toLocaleDateString() }
 
     // Get existing workouts from localStorage or initialize an empty array
-    const workouts = JSON.parse(localStorage.getItem('workouts')) || []
+    const storedWorkouts = localStorage.getItem('workouts');
+    const workouts = JSON.parse(storedWorkouts || '[]');
 
     // Add new workout to the list
     workouts.push(workoutData)
@@ -202,7 +213,7 @@ function WorkoutForm({ setWorkouts }) {
         />
       </div>
       <div>
-        <Label htmlFor="weight">Weight (kg)</Label>
+        <Label htmlFor="weight">Weight (lbs)</Label>
         <Input
           id="weight"
           type="number"

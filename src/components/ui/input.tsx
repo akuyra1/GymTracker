@@ -4,8 +4,19 @@ import { cn } from "@/app/lib/utils"
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-    someProperty: string; // Add a property
-
+    id: string;
+    type: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    placeholder: string;
+    required: boolean;
+  }
+  export interface setWorkouts {
+    exercise: string;
+    sets: number;
+    reps: number;
+    weight: number;
+    date: string;
   }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
