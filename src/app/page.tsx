@@ -137,7 +137,7 @@ function WorkoutForm({ setWorkouts }) {
   const [sets, setSets] = useState('')
   const [reps, setReps] = useState('')
   const [weight, setWeight] = useState('')
-  const router = useRouter()
+  // const router = useRouter()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
